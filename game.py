@@ -4,6 +4,11 @@ import pygame
 import time
 
 pygame.mixer.init()
+pygame.font.init()
+
+# Comic Sans Font
+Csf = pygame.font.SysFont('Comic Sans MS', 30)
+
 pygame.mixer.music.load('./assets/Balloon Game.mp3')
 pygame.mixer.music.play(loops = 0, start = 0.0)
 
@@ -22,6 +27,8 @@ width, height = 1280, 720
 screen = pygame.display.set_mode((width, height))
 
 gameRun = True
+
+playerScore = 1
 
 def text_objects(text, font):
     textSurface = font.render(text, True, white)
@@ -42,16 +49,13 @@ def StartMenu():
                     gameLoop()
                 
         screen.fill(white)
-        largeText = pygame.font.Font('./assets/Anton-Regular.ttf',115)
         menuBg = pygame.image.load("./assets/menuWallpaper.png")
-        screen.blit(menuBg, (-20,-20))
-        TextSurf, TextRect = text_objects("Anvil Dropper", largeText)
-        TextRect.center = ((width/2),(height/2))
-        screen.blit(TextSurf, TextRect)
+        screen.blit(menuBg, (0,0))
         pygame.display.update()
         fpsClock.tick(15)
 
 def gameOver():
+    global playerScore
     while gameOver:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -59,12 +63,15 @@ def gameOver():
                 quit()
         key = pygame.key.get_pressed()
         if key[pygame.K_RETURN]:
-                print("Game Has Now Begun")
+                print("Game Has Restarted")
+                playerScore = 1
                 gameLoop()
         screen.fill(black)
         largeText = pygame.font.Font('./assets/Anton-Regular.ttf',34)
         TextSurf, TextRect = text_objects("Game Over", largeText)
         TextSurf2, TextRect2 = text_objects("Press Enter To Restart", largeText)
+        playerScoreText = Csf.render(str(round(playerScore, 0)), False, (255, 0, 0))
+        screen.blit(playerScoreText,(1200,0))
         TextRect.center = ((width/2),(height/2))
         TextRect2.center = ((width/2),(height/2 - 100))
         screen.blit(TextSurf, TextRect)
@@ -99,9 +106,9 @@ class Anvil():
         self.rect.x = x
         self.rect.y = 0
     def update(self):
-        self.rect.y += 20
+        self.rect.y += 15
         if anvil.rect.colliderect(player.rect):
-            print("you touched me")
+            print("anvil hit player")
             gameOver()
     def render(self, screen):
         screen.blit(self.image, (self.rect.x, self.rect.y))
@@ -119,6 +126,7 @@ def gameLoop():
     global t0
     global anvil
     global anvils
+    global playerScore
     while gameRun:
         
         t1 = time.time()
@@ -151,6 +159,10 @@ def gameLoop():
             anvil.update()
             anvil.render(screen)
 
+        playerScore += pygame.time.get_ticks() /100000
+        print(playerScore)
+        playerScoreText = Csf.render(str(round(playerScore, 0)), False, (0, 255, 0))
+        screen.blit(playerScoreText,(1200,0))
         # Update.
         player.update()
         # Draw.
