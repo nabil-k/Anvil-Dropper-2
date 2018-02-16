@@ -1,3 +1,4 @@
+import cx_Freeze
 import sys
 import random
 import pygame
@@ -6,10 +7,11 @@ import time
 pygame.mixer.init()
 pygame.font.init()
 
+
 # Comic Sans Font
 Csf = pygame.font.SysFont('Comic Sans MS', 30)
 
-pygame.mixer.music.load('./assets/Balloon Game.mp3')
+pygame.mixer.music.load('Balloon-Game.mp3')
 pygame.mixer.music.play(loops = 0, start = 0.0)
 
 
@@ -49,7 +51,7 @@ def StartMenu():
                     gameLoop()
                 
         screen.fill(white)
-        menuBg = pygame.image.load("./assets/menuWallpaper.png")
+        menuBg = pygame.image.load("menuWallpaper.png")
         screen.blit(menuBg, (0,0))
         pygame.display.update()
         fpsClock.tick(15)
@@ -83,7 +85,7 @@ def gameOver():
 # Player (Player playing as "Blue")
 class Player():
     def __init__(self, x, y):
-        self.image = pygame.transform.scale(pygame.image.load("./assets/blue.png"), (120,120))
+        self.image = pygame.transform.scale(pygame.image.load("blue.png"), (120,120))
         self.rect = self.image.get_rect()
         self.rect.x = 540
         self.rect.y = 500
@@ -101,7 +103,7 @@ player = Player(0,0)
 
 class Anvil():
     def __init__(self, x, y):
-        self.image = pygame.transform.scale(pygame.image.load("./assets/anvil.png"), (120,120))
+        self.image = pygame.transform.scale(pygame.image.load("anvil.png"), (120,120))
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = 0
@@ -131,7 +133,7 @@ def gameLoop():
         
         t1 = time.time()
         dt = t1 - t0
-        screen.blit(pygame.image.load("./assets/gameBg.png"),(0,0))
+        screen.blit(pygame.image.load("gameBg.png"),(0,0))
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
