@@ -9,7 +9,7 @@ pygame.font.init()
 
 
 # Comic Sans Font
-Csf = pygame.font.SysFont('Comic Sans MS', 30)
+Csf = pygame.font.SysFont('Anton-Regular.ttf', 61)
 
 pygame.mixer.music.load('Balloon-Game.mp3')
 pygame.mixer.music.play(loops = 0, start = 0.0)
@@ -24,6 +24,9 @@ pygame.init()
 
 fps = 60
 fpsClock = pygame.time.Clock()
+
+pygame.display.set_caption("Anvil Dropper")
+pygame.display.set_icon(pygame.image.load("anvil.png"))
 
 width, height = 1280, 720
 screen = pygame.display.set_mode((width, height))
@@ -68,16 +71,10 @@ def gameOver():
                 print("Game Has Restarted")
                 playerScore = 1
                 gameLoop()
-        screen.fill(black)
-        largeText = pygame.font.Font('./assets/Anton-Regular.ttf',34)
-        TextSurf, TextRect = text_objects("Game Over", largeText)
-        TextSurf2, TextRect2 = text_objects("Press Enter To Restart", largeText)
-        playerScoreText = Csf.render(str(round(playerScore, 0)), False, (255, 0, 0))
-        screen.blit(playerScoreText,(1200,0))
-        TextRect.center = ((width/2),(height/2))
-        TextRect2.center = ((width/2),(height/2 - 100))
-        screen.blit(TextSurf, TextRect)
-        screen.blit(TextSurf2, TextRect2)
+        screen.blit(pygame.image.load("gameOverBg.png"),(0,0))
+        largeText = pygame.font.Font('Anton-Regular.ttf',34)
+        playerScoreText = Csf.render("Score: " + str(round(playerScore, 0)), False, (255, 0, 255))
+        screen.blit(playerScoreText,(1000,10))
         pygame.display.update()
         fpsClock.tick(15)
             
@@ -92,9 +89,9 @@ class Player():
     def update(self):
         key = pygame.key.get_pressed()
         if key[pygame.K_LEFT]:
-             self.rect.x -= 20
+             self.rect.x -= 10
         if key[pygame.K_RIGHT]:
-             self.rect.x += 20
+             self.rect.x += 10
 
     def render(self, screen):
         screen.blit(self.image, (self.rect.x, self.rect.y))
@@ -163,8 +160,8 @@ def gameLoop():
 
         playerScore += pygame.time.get_ticks() /100000
         print(playerScore)
-        playerScoreText = Csf.render(str(round(playerScore, 0)), False, (0, 255, 0))
-        screen.blit(playerScoreText,(1200,0))
+        playerScoreText = Csf.render("Score: " + str(round(playerScore, 0)), False, (0, 255, 0))
+        screen.blit(playerScoreText,(1000,10))
         # Update.
         player.update()
         # Draw.

@@ -16,7 +16,8 @@ cx_Freeze.setup(
                 "blue.png",
                 "Balloon-Game.mp3",
                 "gameBg.png",
-                "menuWallpaper.png"
+                "menuWallpaper.png",
+                "gameOverBg.png"
                 ]
         }
     },
